@@ -1,0 +1,26 @@
+;Timothy Lockhart
+		.model small
+		.stack 100h
+		.data
+var 	db  "I just found out that addng 14 + 53 reults $"
+		.code
+main:	mov ax,@DATA
+		mov ds,ax
+		
+		mov ah,9
+		lea dx, var
+		int 21h
+		
+		mov cl,14
+		mov bl,53
+		add cl,bl
+		
+		mov dl,cl
+		mov ah,2
+		int 21h
+		
+		mov ah,4ch
+		int 21h
+		end main
+		
+
