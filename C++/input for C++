@@ -1,0 +1,52 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+void openFiles(ifstream& infile, ofstream& outfile);
+void printheaAding();
+
+int main()
+{
+	ifstream infile;
+	ofstream outfile;
+	//openFiles(infile, outfile);
+	infile.open("input.txt");
+	outfile.open("output.txt");
+	printheading();
+
+
+
+
+	infile.close();
+	outfile.close();
+	return 0;
+};
+void printheading()
+{
+
+};
+void openFiles(ifstream& infile, ofstream& outfile)
+{
+	char Infilename[40];
+	char Outfilename[40];
+
+	cout << "enter the input file name" << endl;
+	cin >> Infilename;
+	infile.open(Infilename);
+
+	while (infile.fail())
+	{
+		cout << "file not opened. Please enter the correct input file name"
+			<< endl;
+		cin >> Infilename;
+		infile.open(Infilename);
+	}
+	cout << "enter the output file name" << endl;
+	cin >> Outfilename;
+	outfile.open(Outfilename);
+};
+
+
+
+
+
