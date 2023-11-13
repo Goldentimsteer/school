@@ -1,4 +1,4 @@
-; Joshua Beaty & Timothy Lockhart
+;Timothy Lockhart
 		.model small
 		.stack 100h
 		.data
