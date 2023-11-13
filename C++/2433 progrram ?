@@ -1,0 +1,190 @@
+/*
+	=================================================================
+	Timothy Lockhart
+	2433 distrete structure
+	12/2/21
+	=================================================================
+	Description:
+	this program will read in the inputs N,A.B, and D. and call the
+	function combination, once the function is called it will start
+	calculating C(BD)^A which is (B!/(B-D)!D!)^A. It should be noted
+	that this program does not use any exponents, but uses loops to 
+	do calculations. to get the factorial of all the input 
+	combinations will call factorial to calculate the numbers once
+	calculated it now mods the answer by 10^9 + 7 to make the 
+	calculations smaller. once that is done we need to multiply 
+	C(BD)^A by C(NA). C(NA) = N!/(N-A)!A!. C(NA) is also moded by
+	10^9 + 7. Then returns results and outputs it to the output file. 
+	=================================================================
+*/
+#include <iostream>
+#include <fstream>
+using namespace std;
+/*
+	=================================================================
+	void openFiles:
+	requires if stream and ofstream
+	returns input file and output file
+	=================================================================
+*/
+void openFiles(ifstream& infile, ofstream& outfile);
+/*
+	=================================================================
+	void printheading:
+	requires ofstream outfile
+	does not return anything
+	=================================================================
+*/
+void printheading(ofstream& outfile);
+/*
+	=================================================================
+	unsigned long long int combination
+	requires int N,A,B, and D
+	returns results
+	combination will call the function factorial to compute the
+	factorial of the num
+	=================================================================
+*/
+unsigned long long int combination(int N, int A, int B, int D);
+
+
+int main()
+{
+	ifstream infile;
+	ofstream outfile;
+	//openFiles(infile, outfile);
+	infile.open("input.txt");
+	outfile.open("output.txt");
+	printheading(outfile);
+
+	/*
+		initalize all numbers to 0;
+	*/
+	unsigned long long int results = 0;
+	int N = 0;
+	int A = 0;
+	int B = 0;
+	int D = 0;
+	/*
+		reads in from input files N,A,B, and D. calls combination and output
+		the results of the output file
+	*/
+	while (infile >> N >> A >> B >> D)
+	{
+		results = combination(N, A, B, D);
+		outfile << results << endl;
+	}
+	infile.close();
+	outfile.close();
+	return 0;
+}
+/*
+	=================================================================
+	void printheading:
+	requires ofstream outfile
+	does not return anything
+	=================================================================
+*/
+void printheading(ofstream & outfile)
+{
+	outfile << "Timothy Lockhart" << endl;
+	outfile << "Program 4: Combinatorial Teams" << endl << endl;
+}
+/*
+	=================================================================
+	void openFiles:
+	requires if stream and ofstream
+	returns input file and output file
+	=================================================================
+*/
+void openFiles(ifstream& infile, ofstream& outfile)
+{
+	char Infilename[40];
+	char Outfilename[40];
+
+	cout << "enter the input file name" << endl;
+	/*user writes input file name*/
+	cin >> Infilename;
+	infile.open(Infilename);
+
+	while (infile.fail())
+	{
+		cout << "file not opened. Please enter the correct input file name"
+			<< endl;
+		/*user writes another input file name if the input file was not opened*/
+		cin >> Infilename;
+		infile.open(Infilename);
+	}
+	cout << "enter the output file name" << endl;
+	/*user writes output file name*/
+	cin >> Outfilename;
+	outfile.open(Outfilename);
+}
+/*
+	=================================================================
+	unsigned long long int factorial:
+	requires an int num
+	returns results
+	=================================================================
+*/
+unsigned long long int factorial(int num)
+{
+	unsigned long long int results = 1;
+	for (int i = num; i > 0; i--)
+	{
+		results = results * i;
+	}
+	return results;
+}
+/*
+	=================================================================
+	unsigned long long int combination 
+	reqires int N,A,B, and D
+	returns results
+	combination will call the funtion factorial to compute the 
+	factorial of the num
+	=================================================================
+*/
+unsigned long long int combination(int N, int A, int B, int D)
+{
+	/*
+	unsigned long long int results = 1;
+	///*calculates factorials
+	unsigned long long int factB = factorial(B);
+	unsigned long long int factD = factorial(D);
+	int BD = B - D;
+	unsigned long long int factBD = factorial(BD);
+	*/
+	unsigned long long int results = 1;
+
+	
+	/* loops results A times for C(B!/((B-D)!D!)^A and mods it by 10^9 +7
+	to keep it small so it doesnt overload*/
+	for (int i = 0; i < A; i++)
+	{
+		results = (results * factB / (factBD * factD)) % 1000000007;
+	}
+	/*calculate factorials for C(NA)*/
+	unsigned long long int factN = factorial(N);
+	unsigned long long int factA = factorial(A);
+	int NA = N - A;
+	unsigned long long int factNA = factorial(NA);
+	/*C(NA) = N!/(N-A)!A! and mods it by 10^9 + 7 to keep it from 
+	overloading*/
+	results = (results * factN / (factNA * factA)) % 1000000007;
+	return results;
+}
+/*
+
+*/
+unsigned long long int calc_results(int N, int A, int B, int D)
+{
+	unsigned long long int results = 1;
+	/*calculates factorials*/
+	unsigned long long int factB = factorial(B);
+	unsigned long long int factD = factorial(D);
+	int BD = B - D;
+	unsigned long long factBD = factorial(BD);
+	combination()
+}
+
