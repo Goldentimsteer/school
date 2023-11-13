@@ -1,0 +1,87 @@
+//Timothy Lockhart
+//CMPS 2433 Distrete structures
+//Program 1: Bitwize Operations
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+using namespace std;
+
+// void openFiles will ask to type your input and output. if your input is 
+// incorrect openFiles will ask to retype your input
+void openFiles(ifstream& infile, ofstream& outfile);
+
+//int bitwisoperations will reverse the bits from the input file.
+int bitwiseoperations(unsigned short);
+
+
+int main()
+{
+	
+	ifstream infile;
+	ofstream outfile;
+	openFiles(infile, outfile);
+
+	outfile << "Timothy Lockhart" << endl;
+	outfile << "Program 1: Bitwize Operations" << endl << endl;
+	outfile << "Number    Reverse" << endl;
+
+	// while (!infile.eof()) will read the input and write it to the output,
+	// and call bitwiseiperation and write the answer to the outfile. 
+	while (!infile.eof())
+	{
+		unsigned short input = 0;
+		infile >> input;
+		outfile << left << setw(10) << input;
+		outfile << left << setw(10) << bitwiseoperations(input) << endl;
+	}
+
+	infile.close();
+	outfile.close();
+	return 0;
+};
+
+
+
+// Bitwiseoperations requires an unsigned int and returns reversebit
+// Bitwise operation will calculate the size of the input and uses a for loop
+// to reverse the bit
+int bitwiseoperations(unsigned short num)
+{
+	unsigned int  numbits = sizeof(num) * 8;
+	unsigned int reversebits = 0;
+	for (int i = 0; i < numbits; i++)
+	{
+		if ((num & (1 << i)))
+			reversebits |= 1 << ((numbits - 1) - i);
+	}
+	return reversebits;
+};
+
+
+
+// openFiles is a fuction that requires ifstream and ofstream
+// openFiles will require you to type your input and output
+// if your input is wrong openFiles will ask for you to type
+// your input again.
+void openFiles(ifstream& infile, ofstream& outfile)
+{
+	char InFilename[40];
+	char OutFilename[40];
+
+	cout << "Enter the input file name" << endl;
+	cin >> InFilename;
+	infile.open(InFilename);
+
+	while (infile.fail())
+	{
+		cout << "File not opened. Please enter the correct input file name." << endl;
+		cin >> InFilename;
+		infile.open(InFilename);
+	}
+		cout << "Enter the output file name" << endl;
+		cin >> OutFilename;
+		outfile.open(OutFilename);
+};
+
+
