@@ -1,0 +1,61 @@
+;Timothy Lockhart
+
+		.model small
+		.stack 100h
+		.data
+stMsg 	db 		"Write a 0 for non vaccinated and a 1 for vaccinated" ,13,10,'$'
+fail 	db 		" The system failed " ,13,10,'$'
+goal 	db 		" Goal has been achieved " ,13,10,'$'
+blank 	db 		"" ,13,10,'$'
+
+		.code
+main:	mov ax,@DATA
+		mov ds,ax
+		
+	
+		mov CL,0 ;CL = COUNT
+		mov ch,0 ;CH = PERSON
+		
+	LUP: CMP ch,9
+		JGE DONE
+		
+		MOV AH,1
+		INT 21H ;reads keyboard input into AL
+		SUB AL,30H
+		
+		CMP AL,0
+		JE addition
+		
+		ADD CH,1 ;ads to person
+		JMP LUP
+
+	addition:
+			ADD CL,1
+			ADD CH,1 ;ads to person
+			JMP LUP
+	DONE:
+	
+		CMP CL,4
+		Jl printgoal
+		
+		mov ah,9
+		lea dx, fail
+		int 21h
+		jmp endl
+		
+	printgoal:
+		mov ah,9
+		lea dx, goal
+		int 21h
+		JMP endl
+		
+	endl:	
+		mov ah,4ch
+		int 21h
+		end main
+		
+		
+		
+		
+
+
