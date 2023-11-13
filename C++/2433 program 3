@@ -1,0 +1,273 @@
+/*
+	Timothy Lockhart
+	program 3
+	Discrete structures 2433
+	Date 11/9/21
+
+	This program will read in the data and will create a vector of classes. 
+	when reading in the data the main function will call the struct Pair.
+	and initalise all the variables except f. f is later initalized to 
+	s+d. after everything has been initialized it will sort them by the f
+	using a selection sort. after sorting the greedy algorithm starts
+	as one program can not start unless the program ahead has finished.
+	then it will output it to the users outputfile and will neatly organize
+	the output.
+*/
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <iomanip>
+using namespace std;
+
+/*
+	Void openFiles
+	Requires Ifstream, ofstream
+	Returns infile and outfile
+*/
+void openFiles(ifstream& infile, ofstream& outfile);
+/*
+	Void print heading
+	Requires ofstream
+	Returns nothing
+*/
+void printheading(ofstream& outfile);
+/*
+	struct pair
+	Returns int start dura and finish
+
+	will be put in a vector with start dura and finish time
+*/
+struct Pair
+{
+	int start;
+	int dura;
+	int finsh;
+	/*
+	pairs 
+	requires  int start,dura,finish
+	pairs will initialize start dura and finsh to 0;
+	*/
+	Pair()
+	{
+		start = dura = finsh = 0;
+	}
+
+};
+/*
+	class Myclass
+	Requires struct Pair
+	
+	Myclass will create a vector of Pair and has separate function inside
+	to fill sort and print the vector. 
+*/
+class Myclass
+{
+protected:
+	/*is a vector of the struct Pair*/
+	vector<Pair> vect;
+public:
+	/*
+	Void Fill_vect
+	Requires Collector C and Pair P
+	Returns nothing
+
+	Fill_vect will create a vector of the struct Pair
+*/
+	void Fill_vect(Myclass& C, Pair& P)
+	{
+		C.vect.push_back(P);
+	}
+	/*
+	Void sort
+	Requires int size
+	Returns sorted vector
+
+	sort will use a selection sort to sort the vectors by the finish times.
+	if the finish times are out of order it will also swap the start time 
+	and duration times.
+	*/
+	void sort(int size)
+	{
+		int i, j, imin;
+		for (i = 0; i < size - 1; i++)
+		{
+			imin = i;
+			for (j = i + 1; j < size; j++)
+				if (vect[j].finsh < vect[imin].finsh)
+					imin = j;
+			/*placing in correct positions*/
+			swap(vect[i].finsh, vect[imin].finsh);
+			swap(vect[i].start, vect[imin].start);
+			swap(vect[i].dura, vect[imin].dura);
+		}
+	}
+	/*
+	Void print
+	Requires ofstream
+	Returns nothing
+
+	Print requires of stream and will neatly output to the outfile the data
+	*/
+	void Print(ofstream& outfile)
+	{
+		outfile << fixed;
+		outfile << setw(9) << right << vect[0].start;
+		outfile << setw(16) << right << vect[0].dura;
+		outfile << setw(13) << right << vect[0].finsh << endl;
+		int j = 0;
+		for (int i = 1; i < vect.size(); i++)
+		{
+			/*if vect[i].s which is the start time is less than the last ran 
+			finish time then it will skip until it fines a start time that 
+			starts at or after the finish time*/
+			if (vect[i].start >= vect[j].finsh)
+			{
+				outfile << setw(9) << right << vect[i].start;
+				outfile << setw(16) << right << vect[i].dura;
+				outfile << setw(13) << right << vect[i].finsh << endl;
+				j = i;
+			}
+		}
+	}
+};
+
+
+
+
+int main()
+{
+	ifstream infile;
+	ofstream outfile;
+	openFiles(infile, outfile);
+	printheading(outfile);
+	int size = 0;
+	int x, y;
+	Myclass C1;
+
+	infile >> size;
+	for (int n = 0; n <= size; n++)
+	{
+		Pair temp;
+		/* reads in x and y*/
+		infile >> x >> y;
+
+		/*
+		uses temp to make a temporary point to put x and y 
+		to then calculate the finish time with x+y
+		*/
+		temp.start = x;
+		temp.dura = y;
+		temp.finsh = x + y;
+		
+		C1.Fill_vect(C1, temp);
+	}
+	C1.sort(size);
+	C1.Print(outfile);
+
+	infile.close();
+	outfile.close();
+	return 0;
+};
+/*
+	Void printheading
+	Requires ofstream
+	Returns nothing
+
+	printheading just prints the heading for the output files.
+*/
+void printheading(ofstream& outfile)
+{
+	outfile << "Timothy Lockhart" << endl << endl;
+	outfile << "program 3 greedy" << endl;
+	outfile << "start time	duration time	finish time" << endl;
+};
+/*
+	Void openFiles
+	Requires Ifstream and ofstream
+	Returns infile and outfile
+
+	openfiles is a void that requires ifstream and ofstream and returns the input
+	and output. the user will type in an input name and an output name if the input
+	name is incorrect it will continue to ask until it has the correct input.
+*/
+void openFiles(ifstream& infile, ofstream& outfile)
+{
+	char Infilename[40];
+	char Outfilename[40];
+
+	cout << "enter the input file name" << endl;
+	cin >> Infilename;
+	infile.open(Infilename);
+
+	while (infile.fail())
+	{
+		cout << "file not opened. Please enter the correct input file name"
+			<< endl;
+		cin >> Infilename;
+		infile.open(Infilename);
+	}
+	cout << "enter the output file name" << endl;
+	cin >> Outfilename;
+	outfile.open(Outfilename);
+};
+
+
+Timothy Lockhart
+/*
+
+	This program will read the data and create a vector of classes. 
+	when reading in the data the main function will call the struct Pair.
+	and initialize all the variables except f. f is later initialized to 
+	s+d. after everything has been initialized it will sort them by the f
+	using a selection sort. after sorting the greedy algorithm starts
+	as one program can not start unless the program ahead has finished.
+	then it will output it to the user's output file and will neatly organize
+	the output.
+*/
+
+program 3 greedy
+start time	duration time	finish time
+        1               3            4
+        5               2            7
+        8               3           11
+       12               2           14
+
+/*
+Timothy Lockhart
+This program will read the data and create a vector of classes. 
+	when reading in the data the main function will call the struct Pair.
+	and initialize all the variables except f. f is later initialized to 
+	s+d. after everything has been initialized it will sort them by the f
+	using a selection sort. after sorting the greedy algorithm starts
+	as one program can not start unless the program ahead has finished.
+	then it will output it to the user's output file and will neatly organize
+	the output.
+*/
+program 3 greedy
+start time	duration time	finish time
+        2               1            3
+        3               2            5
+        8               3           11
+
+
+/*
+	Timothy Lockhart
+	program 3
+	Distrecte structures 2433
+	Date 11/9/21
+
+	This program will read the data and create a vector of classes. 
+	when reading in the data the main function will call the struct Pair.
+	and initialize all the variables except f. f is later initialized to 
+	s+d. after everything has been initialized it will sort them by the f
+	using a selection sort. after sorting the greedy algorithm starts
+	as one program can not start unless the program ahead has finished.
+	then it will output it to the user's output file and will neatly organize
+	the output.
+*/
+5
+3 2
+4 7
+8 3
+2 1
+8 4
