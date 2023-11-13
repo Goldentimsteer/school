@@ -1,0 +1,129 @@
+;Timothy Lockhart
+		.model small
+		.stack 100h
+		.data
+stMsg 	db 		"please enter o for candidate A or 1 for candidate B",13,10,'$'
+winA 	db 		" Expected winner will be A" ,13,10,'$'
+winB 	db 		" Expected winner will be B" ,13,10,'$'
+blank 	db 		"" ,13,10,'$'
+
+	.code
+Rd 		Proc NEAR
+		push cx
+		mov cx,0
+FcSt:		mov ah,1
+		int 21h
+		
+		cmp al,13
+		je ent
+		
+		sub al,30h
+		mov bl,al
+		
+		push dx
+		mov ax,10
+		mul	cx
+		pop dx
+		
+		mov cx,ax
+		mov bh,0
+		add cx,bx
+		
+		jmp fcSt
+		
+ent: 	add dx,cx
+		pop cx
+		RET
+Rd		ENDP
+
+	
+		
+
+
+
+
+PRT		proc NEAR
+		push ax
+		push bx
+		push cx
+		push dx
+	
+		mov bp,sp
+	
+		mov ax,[BP+10]
+		Mov cl,0
+comp:	cmp ax,0
+		je done1
+		mov bx,10
+		mov dx,0
+		div bx 
+		add cl,1
+		push dx
+		jmp comp
+done1:	
+		cmp cl,0
+		je done2
+		pop dx
+		add dl,30h
+		mov ah,2
+		int 21h
+		sub cl,1
+		jmp done1
+done2:
+		pop dx
+		pop cx
+		pop bx
+		pop ax
+		
+		RET
+PRT		ENDP
+
+
+
+
+
+
+
+
+
+Main: 	Mov ax,@data
+		mov ds,ax
+		
+		mov ah,9
+		lea dx,stMsg
+		int 21h
+		
+		
+		mov dx,0
+		mov cl,0
+looop:	cmp cl,5
+		je  lpend
+		
+		call Rd
+		add cl,1
+		jmp looop
+		
+		
+lpend: 		push DX
+		call PRT
+		pop	DX
+		cmp dx,25000
+		ja B
+		
+		mov ah,9
+		lea dx, winA
+		int 21h
+		jmp done
+		
+B:		mov ah,9
+
+		lea dx,winB
+		int 21h
+		jmp	done
+		
+done: 	mov ah,4ch
+		int 21h
+		end main
+
+
+
