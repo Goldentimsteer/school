@@ -1,0 +1,105 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+void openFiles(ifstream& infile, ofstream& outfile);
+void printheading(ofstream& outfile);
+double factorial(int N);
+int combination(int N, int A, int B, int D);
+int main()
+{
+	ifstream infile;
+	ofstream outfile;
+	//openFiles(infile, outfile);
+	infile.open("myinput.txt");
+	outfile.open("output.txt");
+	printheading(outfile);
+
+	unsigned long long int results = 0;
+	int N = 0;
+	int A = 0;
+	int B = 0;
+	int D = 0;
+	
+	
+	
+	
+	while (!infile.eof())
+	{
+		infile >> N;
+		infile >> A;
+		infile >> B;
+		infile >> D;
+
+		results = combination(N, A, B, D);
+		outfile << results << endl;
+
+	}
+	
+	infile.close();
+	outfile.close();
+	return 0;
+}
+void printheading(ofstream & outfile)
+{
+	outfile << "Timothy Lockhart" << endl;
+	outfile << "Program 4: Combinatorial Teams" << endl << endl;
+}
+
+void openFiles(ifstream& infile, ofstream& outfile)
+{
+	char Infilename[40];
+	char Outfilename[40];
+
+	cout << "enter the input file name" << endl;
+	cin >> Infilename;
+	infile.open(Infilename);
+
+	while (infile.fail())
+	{
+		cout << "file not opened. Please enter the correct input file name"
+			<< endl;
+		cin >> Infilename;
+		infile.open(Infilename);
+	}
+	cout << "enter the output file name" << endl;
+	cin >> Outfilename;
+	outfile.open(Outfilename);
+}
+
+double factorial(int num)
+{
+	int results = 1;
+	for (int i = num; i > 0; i--)
+	{
+		results = results * i;
+	}
+	return results;
+}
+
+int combination(int N, int A, int B, int D)
+{
+	unsigned long long int results = 1;
+	unsigned long long int factB = factorial(B);
+	unsigned long long int factD = factorial(D);
+	int temp = B - D;
+	unsigned long long int factTemp = factorial(temp);
+	//cout << factB << " ";
+	//cout << factD << " ";
+	//cout << factTemp << endl;
+	for (int i = 0; i < A; i++)
+	{
+		results = results * factB / (factTemp * factD);
+		cout << results << endl;
+	}
+	unsigned long long int factN = factorial(N);
+	unsigned long long int factA = factorial(A);
+	temp = N - A;
+	factTemp = factorial(temp);
+	
+	results = results * factN / (factTemp * factA);
+	cout << results;
+	return results;
+}
+
+
