@@ -1,0 +1,155 @@
+//Timothy Lockhart
+// 11-29-19
+//computer science - 1  Colmenares Eduardo
+//This program makes a random matrix using 2d arrays. Allows you to pick a Colum and //display it on the screen. Then takes that number and calculates the mean, variance, and the 
+//standard deviation.
+#include<iostream>
+#include<iomanip>
+
+
+using namespace std;
+const int ROW = 10;
+const int COL = 10;
+
+
+//function prototype
+void populatematrix(int[ROW][COL], int, int); 
+void extractcolum(int[ROW][COL], int, int, int &x);
+void showmethematrix(int[ROW][COL], int, int);
+void computestats(int[ROW][COL], int, int, int, double &x, double &y, 
+	double &z);
+void mymeanfx(int[ROW][COL], int, int, int, double &x);
+void myvarfx(int[ROW][COL], int, int, int, double &x, double);
+void mystdev(double, double &x);
+
+// & sign will allow passing by reference rather than by value 
+
+int main()
+{
+	//declaring intagers and doubles.
+	int i, j;
+	int num;
+	double mean, stdev, var;
+	i = 0;
+	j = 0;
+	stdev = 0;
+	var = 0;
+	num = 0;
+	mean = 0;
+	
+	int matrix[ROW][COL];
+	populatematrix(matrix, ROW, COL);
+	
+
+
+
+
+
+	extractcolum(matrix, ROW, COL, num);
+	showmethematrix(matrix, ROW, COL);
+	computestats(matrix, ROW, COL, num, mean, var, stdev);
+
+	cout << " The mean is " << mean << " The variance is " << var << endl;
+	cout << " The standard deviation is " << stdev <<endl;
+	cout << "==================================================================="
+		<< endl;
+	system("pause");
+	return 0;
+}
+
+void populatematrix(int matrix[ROW][COL], int i, int j)
+{
+	for (j = 0; j < ROW; j++)
+	{
+		for (i = 0; i < COL; i++)
+		{
+			matrix[i][j] = rand();
+		}
+	}
+}
+void extractcolum(int matrix[ROW][COL], int i, int j, int& num)
+{
+
+	cout << "==================================================================="
+		<< endl;
+	cout << "Please type the collum that you would like extracted then hit enter"
+		<< endl;
+	cout << "==================================================================="
+		<< endl;
+	cin >> num;
+	cout << "===================================================================" 
+		<< endl;
+	for (i = 0; i < COL; i++)
+	{
+		if (i == num - 1)
+		{
+			for (j = 0; j < COL; j++)
+			{
+				cout << matrix[j][i] << endl;
+			}
+			cout << endl;
+		}
+	}
+	cout << "==================================================================="
+		<< endl;
+}
+void showmethematrix(int matrix[ROW][COL], int i, int j)
+{
+	cout << "==================================================================="
+		<< endl;
+	for (j = 0; j < COL; j++)
+	{
+		for (i = 0; i < ROW; i++)
+		{
+			cout << setw(5) << matrix[j][i] << " ";
+		}
+		cout << endl;
+	}
+	cout << "==================================================================="
+		<< endl;
+}
+void computestats(int matrix[ROW][COL], int i, int j, int num, double& mean,
+	double& var, double& stdev)
+{
+	mymeanfx(matrix, ROW, COL, num, mean);
+	myvarfx(matrix, ROW, COL, num, var, mean);
+	mystdev(var, stdev);
+}
+
+void mymeanfx(int matrix[ROW][COL], int i, int j, int num, double& mean)
+{
+	
+	for (i = 0; i < ROW; i++)
+	{
+		if (i == num - 1)
+		{
+			for (j = 0; j < COL; j++)
+			{
+				mean += matrix[j][i];
+			}
+		}
+	}
+	mean = mean / COL;
+}
+void myvarfx(int matrix[ROW][COL], int i, int j, int num, double& var,
+double mean)
+{
+	
+	for (i = 0; i < ROW; i++)
+	{
+		if (i == num - 1)
+		{
+			for (j = 0; j < COL; j++)
+			{
+				var += ((matrix[j][i] - mean) * (matrix[j][i] - mean))/COL;
+			}
+
+		}
+
+	}
+}
+void mystdev(double var, double& stdev)
+{
+	stdev += sqrt(var);
+}
+
