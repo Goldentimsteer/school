@@ -1,0 +1,33 @@
+//Timothy Lockahrt
+#include <iostream>
+using namespace std;
+int main()
+{
+    int array1[8];
+
+    for (int i = 0; i <= 7; ++i)
+        cin >> array1[i];
+
+    int A = 0, B = 0;
+
+    for (int i = 0; i <= 7; ++i)
+    {
+      
+        if (array1[i] == 0)
+            ++A;
+        else
+            ++B;
+        
+    }
+
+    if (A > B)
+        cout << "Expected winner is A" << endl;
+    else if (B > A)
+        cout << "Expected winner is B" << endl;
+    else
+        cout << "Its a tie" << endl;
+
+    system("pause");
+    return 0;
+}
+
