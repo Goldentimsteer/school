@@ -1,0 +1,108 @@
+#include <iostream>
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
+
+
+int TOTAL = 0;
+int NUM_OF_THREADS = 3;
+int ARR[6000];
+
+
+
+void *fun(void *ptr)
+{
+    for(int i = thread_id-1*2000; i < thread_id * 2000 - 1; i++)
+    {
+        TOTAL = TOTAL +ARR[i];
+    }
+
+
+    cout << TOTAL;
+    pthread_exit(0);
+}
+
+int main()
+{
+    pthread_t threads[NUM_OF_THREADS};
+    for(int i = 1; i <= 6000; i++)
+    {
+        ARR[i]=i;
+    }
+    
+    for(int i = 0; i < NUM_OF_THREADS; i++)
+	{
+		pthread_create(&threads[i], 0, fun, 0);
+	}
+
+
+
+    //pthread_t pro, con, sin;
+    //pthread_create(&con, 0, fun, 0);
+    //pthread_create(&pro, 0, fun,0);    
+    //pthread_create(&sin, 0, fun,0);
+
+    cout << TOTAL;
+    //total = 7998000
+
+    return 0;
+}
+
+
+#include <iostream>
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
+
+
+int TOTAL = 0;
+int ARR[6000];
+
+void *consumer(void *ptr)
+{
+	for(int i = 0;i < 2000;i++)
+	{
+		TOTAL = TOTAL +ARR[i];
+	}
+	pthread_exit(0);
+}
+
+void *thread(void *ptr)
+{
+	for(int i = 2000;i < 4000;i++)
+	{
+		TOTAL = TOTAL +ARR[i];
+	}
+	pthread_exit(0);
+}
+void *threads(void *ptr)
+{
+	for(int i = 4000;i < 6000;i++)
+	{
+		TOTAL = TOTAL +ARR[i];
+	}
+	pthread_exit(0);
+}
+
+int main()
+{
+	for(int i = 1; i < 6000; i++)
+	{
+		ARR[i]=i;
+	}
+	
+	
+	pthread_t pro, con, sin;
+	pthread_create(&con, 0, consumer, 0);
+	pthread_create(&pro, 0, thread,0);	
+	pthread_create(&sin, 0, threads,0);
+
+	cout << TOTAL;
+	//total = 7998000
+
+	return 0;
+}
+
+
