@@ -1,0 +1,166 @@
+//Timothy Lockhart
+//Program 2 
+//Discrete Structures 2433 
+//Date: 3/12/21
+//Discription: This program asked for a input and a output from the user. once an output has 
+//been created it reads from the input and computes f(x) the inverse of f(x) and the same for 
+//g(x). once it has been computed it aranges them neatly.
+
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <string>
+using namespace std;
+
+//prototypes
+//open file is called when the user needs to use multiple inputs and output.
+void openFile(ifstream& infile, ofstream& outfile);
+
+// calles the heading funtion
+void heading(ofstream& outfile);
+
+//f(x) function = x+6
+double fx(double x);
+
+// inverse f(x) = x - 6
+double ifx(double x);
+
+//g(x) function =7x
+double gx(double x);
+
+//inverse g(x) = x/7
+double igx(double x);
+
+
+int main()
+{
+	ifstream infile;
+	ofstream outfile;
+	openFile(infile, outfile);
+	heading(outfile);
+
+	//For loop for creating random integers
+	/*
+	for (int i = 0; i < 20; i++)
+	{
+		outfile << rand() * 2 % 20 << endl;
+	};
+	*/
+	
+	//!infile.eof() will check for end of file.
+	while (!infile.eof())
+	{
+		double x = 0;
+		double output = 0;
+
+		infile >> x;
+		
+		outfile << fixed;
+		outfile << setw(8) << setprecision(2) << right << x;
+		
+		output = fx(x);
+		outfile << setw(10) << setprecision(2) << right << output;
+
+		output = ifx(x);
+		outfile << setw(10) << setprecision(2) << right << output;
+
+		output = gx(x);
+		outfile << setw(10) << setprecision(2) << right << output;
+
+		output = igx(x);
+		outfile << setw(10) << setprecision(2) << right << output;
+
+		output = fx(gx(x));
+		outfile << setw(10) << setprecision(2) << right << output;
+		
+		output = ifx(fx(x));
+		outfile << setw(10) << setprecision(2) << right << output;
+
+		output = igx(gx(x));
+		outfile << setw(10) << setprecision(2) << right << output;
+
+		outfile << endl;
+	};
+
+	outfile.close();
+	infile.close();
+	return 0;
+}
+//void heading
+//Requires ofstream
+//Returns nothing
+//heading prints out the heading and all the funtions and the inverse.
+void heading(ofstream& outfile)
+{
+	outfile << "===========================================================";
+	outfile << "=======================" << endl;
+	outfile << "Timothy Lockhart" << endl;
+	outfile << "f(x) = x + 6	f-1(y) = x - 6	g(x) = 7x	g-1(y) = x / 7" << endl;
+	outfile << endl;
+	outfile << "     x        f(x)     fInv(y)     g(x)    gInv(y)  f(g(x))";
+	outfile << " fInv(f(x)) gInv(g(x))" << endl;
+	outfile << "===========================================================";
+	outfile << "=======================" << endl;
+
+}
+
+//double fx
+//requires double x
+//returns double x
+//fx gets x from the main function and computes f(x) which is x + 6.
+double fx(double x)
+{
+	double temp = x;
+	x = x + 6;
+	return x;
+}
+//double ifx
+//requires double x
+//returns double x
+//ifx gets x from the main function and computes the inverse of f(x) which is x - 6.
+double ifx(double x)
+{
+	double temp = x;
+	x = x - 6;
+	return x;
+}
+//double gx
+//requires double x
+//returns double x
+//gx gets x from the main function and computes g(x) which is x * 6.
+double gx(double x)
+{
+	double temp = x;
+	x = x * 7;
+	return x;
+}
+//double igx
+//requires double x
+//returns double x
+//gx gets x from the main function and computes the inverse of g(x) which is x / 6.
+double igx(double x)
+{
+	double temp = x;
+	x = x / 7;
+	return x;
+}
+//void openFile
+//requires ifstream and ofstream
+//returns nothing
+//openFile asks the user for the name of the input file and the output file
+//once it has the names it opens the files and continues with the program. 
+void openFile(ifstream& infile, ofstream& outfile) 
+{
+	
+	char inFileName[40];
+	char outfileName[40];
+
+	cout << "Enter the input file name: ";
+	cin >> inFileName;
+	infile.open(inFileName);
+
+	cout << "Enter the output file name: ";
+	cin >> outfileName;
+	outfile.open(outfileName);
+	
+}
