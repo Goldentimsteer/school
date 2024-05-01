@@ -1,0 +1,65 @@
+//Timothy Lockhart
+//9/7/2022
+//This program will have the user to type in 5 numbers without spaces 
+//and will space them out with three spaces between the numbers
+//the program will also not allow a imput of numbers less or greater 
+//then 5.
+namespace Lockhart_prog3
+{
+    public partial class lockhart : Form
+    {
+        private object lable2;
+
+        public lockhart()
+        {
+            InitializeComponent();
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+             int number =  int.Parse(textBox1.Text);
+            //counts to see how many numbers have been inputed
+            //if less then 5 or greater then 5, the program will
+            //return.
+            int temp = number;
+            int count = 0;
+            label2.Text = ("");
+            while (temp > 0)
+            {
+                temp = temp / 10;
+                count++;
+                
+            }
+            if (count >= 6 || count <= 4)
+            {
+                label1.Text = ("Please insert 5 numbers");
+                label2.Text = ("You have not inserted 5 numbers");
+                return;
+            }
+            //puts numbers into array to seprate with spaces
+            int[] array1 = new int[5];
+            temp = 0;
+          for (int i = 0; i < 5; i++)
+            {
+                temp = number % 10;
+                array1[i] = temp;
+                number = number / 10; 
+            }
+
+          // output array with three spaces between each number
+            String s = "";
+            for (int j = 4; j >= 0; j--)
+            {
+                s += array1[j].ToString() + "   ";
+            }
+            label2.Text = s;
+            
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+    }
+}
