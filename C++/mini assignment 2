@@ -1,0 +1,59 @@
+//Timothy Lockhart      
+//Mini assignment 2
+#include <iostream>
+#include <fstream>
+#include <ctime>
+using namespace std;
+
+
+
+int main()
+{
+	int x = 0;
+	srand(time(NULL));
+	x = rand()% 2000000 + 70000;
+	cout << x << endl;
+
+	int arr[31];
+	for (int i = 31; i >= 0; i--)
+	{
+		int k = x >> i;
+		if (k & 1)
+			arr[i] = 1;
+		else	
+			arr[i] = 0;
+	}
+	
+	
+	
+	int skipped = 0;
+	
+	for(int i = 0; i < 31; i++)
+	{
+		if (arr[i] == 0)
+			if (arr[i+1] == 0)
+				if (arr[i+2] == 0)
+					if (arr[i+3] == 0)
+					{
+						i = i + 4;
+					}
+				else
+					skipped++;
+			else 
+				skipped++;
+				
+
+	}
+	//cout << "number of spaces skipped are " << skipped << endl;
+	return 0;
+}
+// 70000 spaces skipped = 4
+// 1835933 spaces skipped = 3
+// 1744536 spaces skipped = 4
+// 670853 spaces skipped = 3
+// 1597169 spaces skipped = 2
+// 96545 spaces skipped = 2
+// 692357 spaces skipped = 1
+// 909447 spaces skipped = 0
+// 892471 spaces skipped = 3
+// 779057 spaces skipped = 5
