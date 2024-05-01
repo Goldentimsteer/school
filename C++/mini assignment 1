@@ -1,0 +1,60 @@
+/*
+Timmy Lockhart
+Mini assignment 1
+*/
+#include <iostream>
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
+
+
+int TOTAL = 0;
+int NUM_OF_THREADS = 3;
+pthread_mutex_t the_mutex;
+int ARR[6000];
+
+
+
+void *fun(void *ptr)
+{
+	long thread_id = (long) ptr + 1;
+	//cout << thread_id << endl;
+	for(int i = (thread_id - 1)*2000; i <= thread_id * 2000 - 1; i++)
+	{
+		pthread_mutex_lock(&the_mutex);
+		TOTAL = TOTAL +ARR[i];
+		pthread_mutex_unlock(&the_mutex);
+	}
+
+	pthread_exit(0);
+}
+
+int main()
+{
+	pthread_t threads[NUM_OF_THREADS];
+	//pthread_mutex_init(&the_mutex,0);
+	for(int i = 0; i < 6000; i++)
+	{
+       	 	ARR[i]=i+1;
+   	}
+    
+	for(int i = 0; i < NUM_OF_THREADS; i++)
+	{
+		pthread_create(&threads[i], 0, fun, (void*)i);
+	}
+
+	for (int i = 0; i < NUM_OF_THREADS; i++)
+	{
+		pthread_join (threads[i], NULL);
+	}
+
+
+	pthread_mutex_destroy(&the_mutex);
+
+	cout << TOTAL;
+	//total = 18003000
+	//stotoal = 18003000
+	
+	return 0;
+}
