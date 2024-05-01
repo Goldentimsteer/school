@@ -1,0 +1,160 @@
+/*
+	Timothy Lockhart
+	program 2
+	Distrecte structures 2433
+	Date !0/20/21
+
+	This program will ask the user to write the input and output for the 
+	program. once the program has the correct input the program starts to 
+	compute the square pyramidal numbers. how to calculate the pyramidal 
+	Ex. num 1. and square it. since their are no numbers before it 1 is the
+	answer. for 2, 2 squared is 4 and you add the previouse number which is 
+	equal to 5. it will calculate the square for the interative, recursive,
+	and the closed form solution. 
+*/
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+using namespace std;
+
+/*
+	void openfiles will ask the user to type in a input and output.
+*/
+void openFiles(ifstream& infile, ofstream& outfile);
+/*
+	void printheading removes the hardcode of my name and the type of 
+	function beiing used to calculate the square pyramidal
+*/
+void printheading(ofstream& outfile);
+/*
+	int interative uses a for loop to calculate the square pyramidal 
+*/
+int iterative(int n);
+/*
+	int recursions uses recrusive calculations to calculate
+	the square pyramidal
+*/
+int recursions(int n);
+/*
+	int closed_form_solutiuon uses one line to calculate the square pyramidal
+*/
+int closed_form_solution(int n);
+
+int main()
+{
+	ifstream infile;
+	ofstream outfile;
+	/*
+		Openfiles is a function to open the input and output.
+	*/
+	openFiles(infile, outfile);
+	/*
+		print heading will print the heading in the output file.
+	*/
+	printheading(outfile);
+	
+	int filesize = 0;
+	int n = 0;
+	/*
+		reads in the input file size
+	*/
+	infile >> filesize;
+	
+	/*
+		reads in next valve until i = filesize, and outputs the solutions
+		in a neat and organized system. 
+	*/
+	for (int i = 0; i < filesize; ++i)
+	{
+		infile >> n;
+		outfile << fixed;
+		outfile << n;
+		outfile << setw(10) << right << iterative(n);
+		outfile << setw(10) << right <<recursions(n);
+		outfile << setw(10) << right << closed_form_solution(n) << endl;
+	}
+	infile.close();
+	outfile.close();
+	return 0;
+};
+
+/*
+	int intrative will calculate the square pyramidal with sum
+	the for loop if j < (n + 1) will add j * j to sum.
+*/
+int iterative(int n)
+{
+	int sum = 0;
+
+	for (int j = 1; j < n+1; j++)
+	{
+		sum += j * j;
+	}
+	return sum;
+};
+/*
+	int recursions, will return n*n + the recrsive function(n-1) if n > 1
+	if n = 1 recursions will return 1 and complete the calculations.
+*/
+int recursions(int n)
+{
+	if (n > 1)
+		return n*n + recursions(n - 1);
+	else
+		return 1;
+};
+/*
+	closed form solution will caclulate the square pyramidal with just 
+	multiplcation and division
+	Ex. n = 3, 3 * (3+1) * (2 *3+1)/6
+	3 * (4) * (7)/6
+	12 * (7)/6
+	84/6
+	14
+*/
+int closed_form_solution(int n)
+{
+	return  n * (n + 1) * (2 * n + 1) / 6;
+};
+/*
+	void printheading does not return anything just print the heading 
+	of the output in the outfile.
+*/
+void printheading(ofstream& outfile)
+{
+	outfile << "Timothy Lockhart" << endl;
+	outfile << "n     loopsum    recSoln    closed" << endl << endl;
+};
+/*
+	void openfiles will pass ifsream and ofstream, but does not return 
+	anything. openfiles will ask to type a input and if the input is 
+	not found it will ask again for a correct input. then ask for a 
+	output
+*/
+void openFiles(ifstream& infile, ofstream& outfile)
+{
+	char Infilename[40];
+	char Outfilename[40];
+
+	cout << "enter the input file name" << endl;
+	cin >> Infilename;
+	infile.open(Infilename);
+	/*
+		while the input file was not opened, it will continue to loop untill 
+		the correct input was entered
+	*/
+	while (infile.fail())
+	{
+		cout << "file not opened. Please enter the correct input file name"
+			<< endl;
+		cin >> Infilename;
+		infile.open(Infilename);
+	}
+	cout << "enter the output file name" << endl;
+	cin >> Outfilename;
+	outfile.open(Outfilename);
+};
+
+
+
+
